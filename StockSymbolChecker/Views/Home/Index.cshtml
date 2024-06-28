@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h1 id="title">Stock Search</h1>
+<p class="lead">Enter a stock symbol below to retrieve information about that stock.</p>
+
+<div class="container mt-4" data-bind="with: homeviewModel">
+    <form data-bind="submit: search">
+        <div class="row g-3">
+            <div class="col">
+                <label for="txtStockSymbol" class="form-label">Stock Symbol</label>
+                <input type="text" class="form-control" id="txtStockSymbol" placeholder="AAPL" data-bind="value: stockSymbol">
+            </div>
+            <div class="col">
+                <label for="inputState" class="form-label">Stock Data</label>
+                <select id="inputState" class="form-select" data-bind="value: stockData">
+
+                    <option selected>Today</option>
+                    <option>Weekly (Last 7 Days)</option>
+                    <option>Monthly (Last 30 Days)</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="mt-4" data-bind="if: data().length > 0">
+        <h3>Results:</h3>
+        <div data-bind="foreach: data">
+            <p>Symbol: <span data-bind="text: symbol"></span></p>
+            <p>Date: <span data-bind="text: date"></span></p>
+            <p>Open: <span data-bind="text: open"></span></p>
+            <p>High: <span data-bind="text: high"></span></p>
+            <p>Low: <span data-bind="text: low"></span></p>
+            <p>Close: <span data-bind="text: close"></span></p>
+            <hr />
+        </div>
+    </div>
+</div>
+@section scripts {
+
+    <script src="~/Scripts/Home/homeVm.js"></script>
+
+}
