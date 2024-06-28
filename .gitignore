@@ -5,3 +5,7 @@
 /.vs
 /StockCheck/obj
 /StockCheck/.vs/StockCheck
+/StockSymbolChecker/.vs
+/StockSymbolChecker/bin
+/StockSymbolChecker/obj/Debug
+/StockSymbolChecker/packages
