@@ -2,12 +2,12 @@ stockChartElementName = "stockChart";
 
 function HomeViewModel() {
     var self = this;
-    self.stockSymbol = ko.observable("");
+    self.stockSymbol = ko.observable("").extend({ required: true });
     self.stockDate = ko.observable("");
     self.data = ko.observableArray([]);
-    self.customData = ko.observable("");
+    self.dateFrom = ko.observable("");
+    self.dateTo = ko.observable("");
     self.isLoading = ko.observable(false); 
-    self.allBindingsLoaded = ko.observable(false);
 
     self.isCustomDateSelected = ko.computed(function () {
         return self.stockDate() === "Custom";
@@ -20,7 +20,9 @@ function HomeViewModel() {
 
         var requestData = {
             stockSymbol: self.stockSymbol(),
-            stockDate: self.stockDate()
+            stockDate: self.stockDate(),
+            dateFrom: self.dateFrom(), 
+            dateTo: self.dateTo(),
         };
 
         $.ajax({
@@ -80,7 +82,6 @@ function HomeViewModel() {
         });
     }
 
-    self.allBindingsLoaded(true);
 
 }
 

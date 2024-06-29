@@ -18,10 +18,40 @@ namespace StockSymbolChecker.Controllers
         [HttpPost]
         public ActionResult SearchStock(StockSearchRequest request)
         {
-            //Mock Data
-            var data = new MockStockService(request).GetData();
 
-            //Real Data
+            DateTime? dateFrom = null;
+            DateTime? dateTo = null;
+
+            switch (request.StockDate)
+            {
+                case "Today":
+                    dateFrom = DateTime.Now;
+                    dateTo = DateTime.Now;
+                    break;
+
+                case "Weekly":
+                    dateTo = DateTime.Now;
+                    dateFrom = DateTime.Now.AddDays(-7);
+                    break;
+
+                case "Monthly":
+                    dateTo = DateTime.Now;
+                    dateFrom = DateTime.Now.AddDays(-30);
+                    break;
+
+                case "Custom":
+                    dateTo = request.DateTo;
+                    dateFrom = request.DateFrom;
+                    break;
+
+                default:
+                    break;
+            }
+
+            //Mock Data
+            var data = new MockStockService(request.StockSymbol, dateFrom, dateTo).GetData();
+
+            ////Real Data
             //var data = new MarketstackService(request).GetData();
 
             // TODO : make settings global

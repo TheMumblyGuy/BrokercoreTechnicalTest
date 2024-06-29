@@ -10,19 +10,22 @@ namespace StockSymbolChecker.Services
     // TODO : cache
     public class MarketstackService
     {
-        private readonly StockSearchRequest request;
-
-        public MarketstackService(StockSearchRequest request)
-        {
-            this.request = request;
-        }
-
         private static readonly string BaseUrl = "http://api.marketstack.com/v1/eod";
         private static readonly string ApiKey = ConfigurationManager.AppSettings["MarketStackApiKey"];
+        private readonly string symbol;
+        private readonly DateTime? dateFrom;
+        private readonly DateTime? dateTo;
+
+        public MarketstackService(string symbol, DateTime? dateFrom = null, DateTime? dateTo = null)
+        {
+            this.symbol = symbol;
+            this.dateFrom = dateFrom;
+            this.dateTo = dateTo;
+        }
 
         public StockApiRoot GetData()
         {
-            string url = BuildUrl(request.StockSymbol);
+            string url = BuildUrl(this.symbol, this.dateFrom, this.dateTo);
 
             using (HttpClient client = new HttpClient())
             {
@@ -31,7 +34,7 @@ namespace StockSymbolChecker.Services
                 if (response.IsSuccessStatusCode)
                 {
                     string responseBody = response.Content.ReadAsStringAsync().Result;
-                   
+
                     var stockApiRootObj = JsonConvert.DeserializeObject<StockApiRoot>(responseBody);
 
                     return stockApiRootObj;
@@ -54,9 +57,5 @@ namespace StockSymbolChecker.Services
 
             return url;
         }
-
-        // TODO : be called from controller
-        // TODO : create method to get weekly (figure out last 7 days)
-        // TODO : create method to get monthly (figure out last 30 days)
     }
 }

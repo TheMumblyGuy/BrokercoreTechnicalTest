@@ -7,11 +7,15 @@ namespace StockSymbolChecker.Services
 {
     public class MockStockService
     {
-        private readonly StockSearchRequest request;
+        private readonly string symbol;
+        private readonly DateTime? dateFrom;
+        private readonly DateTime? dateTo;
 
-        public MockStockService(StockSearchRequest request)
+        public MockStockService(string symbol, DateTime? dateFrom = null, DateTime? dateTo = null)
         {
-            this.request = request;
+            this.symbol = symbol;
+            this.dateFrom = dateFrom;
+            this.dateTo = dateTo;
         }
 
         public StockApiRoot GetData()
@@ -35,7 +39,7 @@ namespace StockSymbolChecker.Services
                         AdjVolume = 106686703.0,
                         SplitFactor = 1.0,
                         Dividend = 0.0,
-                        Symbol = request.StockSymbol,
+                        Symbol = this.symbol,
                         Exchange = "XNAS",
                         Date = new DateTime(2024, 6, 28)
                     },
@@ -53,7 +57,7 @@ namespace StockSymbolChecker.Services
                         AdjVolume = 106686703.0,
                         SplitFactor = 1.0,
                         Dividend = 0.0,
-                        Symbol = request.StockSymbol,
+                        Symbol = this.symbol,
                         Exchange = "XNAS",
                         Date = new DateTime(2024, 6, 27)
                     },
@@ -71,7 +75,7 @@ namespace StockSymbolChecker.Services
                         AdjVolume = 106686703.0,
                         SplitFactor = 1.0,
                         Dividend = 0.0,
-                        Symbol = request.StockSymbol,
+                        Symbol = this.symbol,
                         Exchange = "XNAS",
                         Date = new DateTime(2024, 6, 26)
                     }

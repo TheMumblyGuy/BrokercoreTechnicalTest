@@ -13,6 +13,7 @@ namespace StockSymbolChecker
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
                         "~/Scripts/knockout-{version}.js",
+                        "~/Scripts/knockout.validation.js",
                         "~/Scripts/knockout-databindings.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

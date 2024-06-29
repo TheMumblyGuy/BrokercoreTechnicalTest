@@ -10,12 +10,14 @@ namespace StockSymbolChecker.Models
     {
         public string StockSymbol { get; set; }
         public string StockDate { get; set; }
+
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
     }
 
     public class HomeVm
     {
         public StockApiRoot StockApiRoot { get; set; }
-
     }
 
     public class StockApiRoot
