@@ -27,10 +27,10 @@ namespace StockSymbolChecker.Controllers
                 {
                     new Datum
                     {
-                        Open = 129.8,
-                        High = 133.04,
-                        Low = 129.47,
-                        Close = 132.995,
+                        Open = 215.805,
+                        High = 216.07,
+                        Low = 210.3,
+                        Close = 210.62,
                         Volume = 106686703.0,
                         AdjHigh = 133.04,
                         AdjLow = 129.47,
@@ -41,14 +41,14 @@ namespace StockSymbolChecker.Controllers
                         Dividend = 0.0,
                         Symbol = request.StockSymbol,
                         Exchange = "XNAS",
-                        Date = DateTime.Now
+                        Date = new DateTime(2024, 6, 28)
                     },
                     new Datum
                     {
-                        Open = 129.8,
-                        High = 133.04,
-                        Low = 129.47,
-                        Close = 132.995,
+                        Open = 214.63,
+                        High = 215.7395,
+                        Low = 212.35,
+                        Close = 214.1,
                         Volume = 106686703.0,
                         AdjHigh = 133.04,
                         AdjLow = 129.47,
@@ -59,14 +59,14 @@ namespace StockSymbolChecker.Controllers
                         Dividend = 0.0,
                         Symbol = request.StockSymbol,
                         Exchange = "XNAS",
-                        Date = DateTime.Now
+                        Date = new DateTime(2024, 6, 27)
                     },
                     new Datum
                     {
-                        Open = 129.8,
-                        High = 133.04,
-                        Low = 129.47,
-                        Close = 132.995,
+                        Open = 211.5,
+                        High = 214.86,
+                        Low = 210.64,
+                        Close = 213.25,
                         Volume = 106686703.0,
                         AdjHigh = 133.04,
                         AdjLow = 129.47,
@@ -77,7 +77,7 @@ namespace StockSymbolChecker.Controllers
                         Dividend = 0.0,
                         Symbol = request.StockSymbol,
                         Exchange = "XNAS",
-                        Date = DateTime.Now
+                        Date = new DateTime(2024, 6, 26)
                     }
                 }
                 }

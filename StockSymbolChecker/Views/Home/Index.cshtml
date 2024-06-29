@@ -8,11 +8,11 @@
 <div class="container mt-4" data-bind="with: homeviewModel">
     <form data-bind="submit: search">
         <div class="row g-3">
-            <div class="col">
+            <div class="col-2">
                 <label for="txtStockSymbol" class="form-label">Stock Ticker</label>
                 <input type="text" class="form-control" id="txtStockSymbol" placeholder="Example : AAPL" data-bind="value: stockSymbol">
             </div>
-            <div class="col">
+            <div class="col-2">
                 <label for="inputDate" class="form-label">Date</label>
                 <select id="inputDate" class="form-select" data-bind="value: stockDate">
 
@@ -22,16 +22,16 @@
                     <option value="Custom">Custom</option>
                 </select>
             </div>
-            <div class="col" data-bind="visible: isCustomDateSelected">
+            <div class="col-2" data-bind="visible: isCustomDateSelected">
 
-                <label for="customData" class="form-label">Start Date</label>
-                <input type="text" class="form-control" id="customData" data-bind="value: customData" placeholder="Enter custom data">
+                <label for="txtStartDate" class="form-label">Start Date</label>
+                <input type="text" class="form-control" id="txtStartDate" data-bind="value: customData" placeholder="Enter custom data">
             </div>
 
-            <div class="col" data-bind="visible: isCustomDateSelected">
+            <div class="col-2" data-bind="visible: isCustomDateSelected">
 
-                <label for="customData" class="form-label">End Date</label>
-                <input type="text" class="form-control" id="customData" data-bind="value: customData" placeholder="Enter custom data">
+                <label for="txtEndDate" class="form-label">End Date</label>
+                <input type="text" class="form-control" id="txtEndDate" data-bind="value: customData" placeholder="Enter custom data">
             </div>
         </div>
         <div class="row mt-3">
@@ -41,29 +41,46 @@
         </div>
     </form>
 
-    // TODO : return all stats in a graph
     <div class="mt-4" data-bind="if: data().length > 0">
 
-        <div data-bind="foreach: data">
-
-            <div><span data-bind="dateText: date, dateFormat: 'MMM DD, YYYY'"></span></div>
-
-            <h3>
-                <span data-bind="text: symbol"></span>
-
-                <span data-bind="text: close"></span>
-                <span class="fs-5 text-muted">USD</span>
-            </h3>
-
-            <p><b>Open:</b> <span data-bind="text: open"></span></p>
-            <p><b>High:</b> <span data-bind="text: high"></span></p>
-            <p><b>Low:</b> <span data-bind="text: low"></span></p>
+        <div class="mt-4" data-bind="if: data().length == 0">
+            <div class="alert alert-info text-center" role="alert">
+                No Stock Found! Please enter a valid ticker above.
+            </div>
         </div>
-    </div>
 
-    <div class="mt-4" data-bind="if: data().length == 0">
-        <div class="alert alert-info text-center" role="alert">
-            No Stock Found!
+        <canvas id="stockChart" width="400" height="200"></canvas>
+
+        <div class="mt-3">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Open</th>
+                        <th>High</th>
+                        <th>Low</th>
+                        <th>Close</th>
+                    </tr>
+                <tbody data-bind="foreach: data">
+                    <tr>
+                        <td>
+                            <span data-bind="dateText: date, dateFormat: 'MMM DD, YYYY'"></span>
+                        </td>
+                        <td>
+                            <span data-bind="text: open"></span>
+                        </td>
+                        <td>
+                            <span data-bind="text: high"></span>
+                        </td>
+                        <td>
+                            <span data-bind="text: low"></span>
+                        </td>
+                        <td>
+                            <span data-bind="text: close"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
