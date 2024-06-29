@@ -12,3 +12,15 @@
     white-space: normal;
 }
 
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.hidden-until-binding {
+    display: none;
+}

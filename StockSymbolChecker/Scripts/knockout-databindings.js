@@ -11,3 +11,17 @@ ko.bindingHandlers.dateText = {
         ko.bindingHandlers.text.update(element, function () { return formattedDate; });
     }
 };
+
+ko.bindingHandlers.showAfterBinding = {
+    init: function (element, valueAccessor) {
+        // Initially hide the element
+        element.style.display = 'none';
+    },
+    update: function (element, valueAccessor) {
+        var value = ko.unwrap(valueAccessor());
+        if (value) {
+            // Show the element
+            element.style.display = '';
+        }
+    }
+};
