@@ -1,13 +1,19 @@
 function HomeViewModel() {
     var self = this;
     self.stockSymbol = ko.observable("");
-    self.stockData = ko.observable("");
+    self.stockDate = ko.observable("");
     self.data = ko.observableArray([]);
+    self.customData = ko.observable(""); 
+
+    self.isCustomDateSelected = ko.computed(function () {
+        return self.stockDate() === "Custom";
+    });
+
 
     self.search = function () {
         var requestData = {
             stockSymbol: self.stockSymbol(),
-            stockData: self.stockData()
+            stockDate: self.stockDate()
         };
 
         $.ajax({

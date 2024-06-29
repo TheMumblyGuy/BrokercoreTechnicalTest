@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
 
 namespace StockSymbolChecker.App_Start
@@ -12,13 +8,11 @@ namespace StockSymbolChecker.App_Start
     {
         public static void RegisterWebApi()
         {
-            // Set JSON formatter settings to use camelCase
-            var jsonSettings = GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings;
-            jsonSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            jsonSettings.Formatting = Formatting.Indented;
+            var formatters = GlobalConfiguration.Configuration.Formatters;
+            var jsonFormatter = formatters.JsonFormatter;
+            var settings = jsonFormatter.SerializerSettings;
 
-            // Ensure we only return JSON
-            GlobalConfiguration.Configuration.Formatters.Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
+            settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
     }
 }

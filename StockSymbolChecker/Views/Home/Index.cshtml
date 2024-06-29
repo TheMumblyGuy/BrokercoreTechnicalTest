@@ -9,17 +9,29 @@
     <form data-bind="submit: search">
         <div class="row g-3">
             <div class="col">
-                <label for="txtStockSymbol" class="form-label">Stock Symbol</label>
-                <input type="text" class="form-control" id="txtStockSymbol" placeholder="AAPL" data-bind="value: stockSymbol">
+                <label for="txtStockSymbol" class="form-label">Stock Ticker</label>
+                <input type="text" class="form-control" id="txtStockSymbol" placeholder="Example : AAPL" data-bind="value: stockSymbol">
             </div>
             <div class="col">
-                <label for="inputState" class="form-label">Stock Data</label>
-                <select id="inputState" class="form-select" data-bind="value: stockData">
+                <label for="inputDate" class="form-label">Date</label>
+                <select id="inputDate" class="form-select" data-bind="value: stockDate">
 
-                    <option selected>Today</option>
-                    <option>Weekly (Last 7 Days)</option>
-                    <option>Monthly (Last 30 Days)</option>
+                    <option value="Today">Today</option>
+                    <option value="Weekly">Weekly (Last 7 Days)</option>
+                    <option value="Monthly">Monthly (Last 30 Days)</option>
+                    <option value="Custom">Custom</option>
                 </select>
+            </div>
+            <div class="col" data-bind="visible: isCustomDateSelected">
+
+                <label for="customData" class="form-label">Start Date</label>
+                <input type="text" class="form-control" id="customData" data-bind="value: customData" placeholder="Enter custom data">
+            </div>
+
+            <div class="col" data-bind="visible: isCustomDateSelected">
+
+                <label for="customData" class="form-label">End Date</label>
+                <input type="text" class="form-control" id="customData" data-bind="value: customData" placeholder="Enter custom data">
             </div>
         </div>
         <div class="row mt-3">
@@ -29,21 +41,33 @@
         </div>
     </form>
 
+    // TODO : return all stats in a graph
     <div class="mt-4" data-bind="if: data().length > 0">
-        <h3>Results:</h3>
+
         <div data-bind="foreach: data">
-            <p>Symbol: <span data-bind="text: symbol"></span></p>
-            <p>Date: <span data-bind="text: date"></span></p>
-            <p>Open: <span data-bind="text: open"></span></p>
-            <p>High: <span data-bind="text: high"></span></p>
-            <p>Low: <span data-bind="text: low"></span></p>
-            <p>Close: <span data-bind="text: close"></span></p>
-            <hr />
+
+            <div><span data-bind="dateText: date, dateFormat: 'MMM DD, YYYY'"></span></div>
+
+            <h3>
+                <span data-bind="text: symbol"></span>
+
+                <span data-bind="text: close"></span>
+                <span class="fs-5 text-muted">USD</span>
+            </h3>
+
+            <p><b>Open:</b> <span data-bind="text: open"></span></p>
+            <p><b>High:</b> <span data-bind="text: high"></span></p>
+            <p><b>Low:</b> <span data-bind="text: low"></span></p>
+        </div>
+    </div>
+
+    <div class="mt-4" data-bind="if: data().length == 0">
+        <div class="alert alert-info text-center" role="alert">
+            No Stock Found!
         </div>
     </div>
 </div>
+
 @section scripts {
-
     <script src="~/Scripts/Home/homeVm.js"></script>
-
 }

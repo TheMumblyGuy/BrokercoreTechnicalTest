@@ -9,7 +9,7 @@ namespace StockSymbolChecker.Models
     public class StockSearchRequest
     {
         public string StockSymbol { get; set; }
-        public string StockData { get; set; }
+        public string StockDate { get; set; }
     }
 
     public class HomeVm
