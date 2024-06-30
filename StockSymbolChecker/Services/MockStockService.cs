@@ -5,6 +5,7 @@ using System.Threading;
 
 namespace StockSymbolChecker.Services
 {
+    // TODO : make mock service better
     public class MockStockService
     {
         private readonly string symbol;

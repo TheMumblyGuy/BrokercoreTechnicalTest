@@ -17,6 +17,7 @@ namespace StockSymbolChecker.Models
 
     public class HomeVm
     {
+        public string Symbol { get; set; }
         public StockApiRoot StockApiRoot { get; set; }
     }
 

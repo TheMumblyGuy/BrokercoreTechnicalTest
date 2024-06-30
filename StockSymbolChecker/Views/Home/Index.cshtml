@@ -54,8 +54,24 @@
         No Data found! Please try again.
     </div>
 
+
     @* Data Found. Graph and Table *@
     <div class="mt-4" data-bind="if: data().length > 0">
+
+
+
+        <div>
+            <figure>
+                <blockquote class="blockquote">
+                    <p>{{Name}}</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    {{Symbol}}
+                </figcaption>
+            </figure>
+            <div>
+            </div>
+        </div>
 
         <canvas id="stockChart" width="400" height="200"></canvas>
 

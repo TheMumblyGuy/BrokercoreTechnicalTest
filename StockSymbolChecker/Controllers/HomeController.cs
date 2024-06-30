@@ -49,15 +49,16 @@ namespace StockSymbolChecker.Controllers
             }
 
             //Mock Data
-            //var data = new MockStockService(request.StockSymbol, dateFrom, dateTo).GetData();
+            var data = new MockStockService(request.StockSymbol, dateFrom, dateTo).GetData();
 
             ////Real Data
-            var data = new MarketstackService(request.StockSymbol, dateFrom, dateTo).GetData();
+            //var data = new MarketstackService(request.StockSymbol, dateFrom, dateTo).GetData();
 
             // TODO : make settings global
 
             var homeVm = new HomeVm
             {
+                Symbol = request.StockSymbol,
                 StockApiRoot = data
             };
 
