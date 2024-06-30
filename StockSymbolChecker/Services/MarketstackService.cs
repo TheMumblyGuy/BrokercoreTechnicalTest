@@ -52,7 +52,9 @@ namespace StockSymbolChecker.Services
 
             if (dateFrom != null && dateTo != null)
             {
-                url = url + $"&date_from={dateFrom}&date_to={dateTo}";
+                var dateFromString = dateFrom.Value.ToString("yyyy-MM-dd");
+                var dateToString = dateTo.Value.ToString("yyyy-MM-dd");
+                url = url + $"&date_from={dateFromString}&date_to={dateToString}";
             }
 
             return url;

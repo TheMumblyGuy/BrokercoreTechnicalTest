@@ -25,7 +25,7 @@ namespace StockSymbolChecker.Controllers
             switch (request.StockDate)
             {
                 case "Today":
-                    dateFrom = DateTime.Now;
+                    dateFrom = DateTime.Now.AddDays(-1);
                     dateTo = DateTime.Now;
                     break;
 
@@ -49,10 +49,10 @@ namespace StockSymbolChecker.Controllers
             }
 
             //Mock Data
-            var data = new MockStockService(request.StockSymbol, dateFrom, dateTo).GetData();
+            //var data = new MockStockService(request.StockSymbol, dateFrom, dateTo).GetData();
 
             ////Real Data
-            //var data = new MarketstackService(request).GetData();
+            var data = new MarketstackService(request.StockSymbol, dateFrom, dateTo).GetData();
 
             // TODO : make settings global
 

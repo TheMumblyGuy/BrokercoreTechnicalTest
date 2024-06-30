@@ -6,6 +6,7 @@
 <p class="lead">Enter a stock symbol below to retrieve information about that stock.</p>
 
 <div class="container mt-4" data-bind="with: homeviewModel">
+
     <form data-bind="submit: search">
         <div class="row g-3">
             <div class="col-2">
@@ -41,12 +42,19 @@
         </div>
     </form>
 
+    @* Loading *@
     <div class="alert alert-info mt-2 text-center" role="alert" data-bind="visible: isLoading">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
 
+    @* No data found *@
+    <div class="alert alert-info mt-2 text-center" role="alert" data-bind="visible: noDataFound">
+        No Data found! Please try again.
+    </div>
+
+    @* Data Found. Graph and Table *@
     <div class="mt-4" data-bind="if: data().length > 0">
 
         <canvas id="stockChart" width="400" height="200"></canvas>

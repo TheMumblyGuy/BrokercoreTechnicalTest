@@ -7,21 +7,24 @@ function HomeViewModel() {
     self.data = ko.observableArray([]);
     self.dateFrom = ko.observable("");
     self.dateTo = ko.observable("");
-    self.isLoading = ko.observable(false); 
+
+    self.isLoading = ko.observable(false);
+    self.noDataFound = ko.observable(false);
 
     self.isCustomDateSelected = ko.computed(function () {
         return self.stockDate() === "Custom";
     });
 
-    self.stockChartInstance = null; 
+    self.stockChartInstance = null;
 
     self.search = function () {
         self.isLoading(true);
+        self.noDataFound(false);
 
         var requestData = {
             stockSymbol: self.stockSymbol(),
             stockDate: self.stockDate(),
-            dateFrom: self.dateFrom(), 
+            dateFrom: self.dateFrom(),
             dateTo: self.dateTo(),
         };
 
@@ -32,8 +35,15 @@ function HomeViewModel() {
             data: JSON.stringify(requestData),
             success: function (response) {
                 console.log(response);
-                self.data(response.stockApiRoot.data);
-                updateChart(response.stockApiRoot.data);
+
+                if (response.stockApiRoot.data.length !== 0) {
+                    self.data(response.stockApiRoot.data);
+                    updateChart(response.stockApiRoot.data);
+                }
+                else {
+                    self.noDataFound(true);
+                    destoryChart();
+                }
                 self.isLoading(false);
             },
             error: function (error) {
@@ -49,11 +59,8 @@ function HomeViewModel() {
 
         var stockChartElement = document.getElementById(stockChartElementName).getContext('2d');
 
-        // Destroy the previous chart instance if it exists
-        if (self.stockChartInstance) {
-            self.stockChartInstance.destroy();
-        }
-
+        destoryChart();
+       
         self.stockChartInstance = new Chart(stockChartElement, {
             type: 'line',
             data: {
@@ -82,7 +89,13 @@ function HomeViewModel() {
         });
     }
 
+    function destoryChart() {
+        // Destroy the previous chart instance if it exists
+        if (self.stockChartInstance) {
+            self.stockChartInstance.destroy();
+        }
 
+    }
 }
 
 ko.applyBindings({ homeviewModel: new HomeViewModel() });
