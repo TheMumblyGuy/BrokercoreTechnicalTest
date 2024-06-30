@@ -54,19 +54,16 @@
         No Data found! Please try again.
     </div>
 
-
     @* Data Found. Graph and Table *@
-    <div class="mt-4" data-bind="if: data().length > 0">
+    <div class="mt-4" data-bind="if: eodData().length > 0">
 
-
-
-        <div>
+        <div data-bind="with: stockDetails">
             <figure>
                 <blockquote class="blockquote">
-                    <p>{{Name}}</p>
+                    <p><span data-bind="text: name"></span></p>
                 </blockquote>
                 <figcaption class="blockquote-footer">
-                    {{Symbol}}
+                    <span data-bind="text: symbol"></span>
                 </figcaption>
             </figure>
             <div>
@@ -85,7 +82,7 @@
                         <th>Low</th>
                         <th>Close</th>
                     </tr>
-                <tbody data-bind="foreach: data">
+                <tbody data-bind="foreach: eodData">
                     <tr>
                         <td>
                             <span data-bind="dateText: date, dateFormat: 'MMM DD, YYYY'"></span>

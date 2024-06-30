@@ -58,7 +58,6 @@ namespace StockSymbolChecker.Controllers
 
             var homeVm = new HomeVm
             {
-                Symbol = request.StockSymbol,
                 StockApiRoot = data
             };
 

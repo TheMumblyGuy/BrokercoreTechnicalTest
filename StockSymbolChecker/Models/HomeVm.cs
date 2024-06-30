@@ -17,20 +17,31 @@ namespace StockSymbolChecker.Models
 
     public class HomeVm
     {
-        public string Symbol { get; set; }
         public StockApiRoot StockApiRoot { get; set; }
     }
-
-    public class StockApiRoot
+    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+    public class Data
     {
-        [JsonProperty("pagination")]
-        public Pagination Pagination { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
 
-        [JsonProperty("data")]
-        public List<Datum> Data { get; set; }
+        [JsonProperty("symbol")]
+        public string Symbol { get; set; }
+
+        [JsonProperty("country")]
+        public object Country { get; set; }
+
+        [JsonProperty("has_intraday")]
+        public bool HasIntraday { get; set; }
+
+        [JsonProperty("has_eod")]
+        public bool HasEod { get; set; }
+
+        [JsonProperty("eod")]
+        public List<Eod> Eod { get; set; }
     }
 
-    public class Datum
+    public class Eod
     {
         [JsonProperty("open")]
         public double Open { get; set; }
@@ -45,7 +56,7 @@ namespace StockSymbolChecker.Models
         public double Close { get; set; }
 
         [JsonProperty("volume")]
-        public double Volume { get; set; }
+        public int Volume { get; set; }
 
         [JsonProperty("adj_high")]
         public double AdjHigh { get; set; }
@@ -60,13 +71,13 @@ namespace StockSymbolChecker.Models
         public double AdjOpen { get; set; }
 
         [JsonProperty("adj_volume")]
-        public double AdjVolume { get; set; }
+        public int AdjVolume { get; set; }
 
         [JsonProperty("split_factor")]
-        public double SplitFactor { get; set; }
+        public int SplitFactor { get; set; }
 
         [JsonProperty("dividend")]
-        public double Dividend { get; set; }
+        public int Dividend { get; set; }
 
         [JsonProperty("symbol")]
         public string Symbol { get; set; }
@@ -92,4 +103,15 @@ namespace StockSymbolChecker.Models
         [JsonProperty("total")]
         public int Total { get; set; }
     }
+
+    public class StockApiRoot
+    {
+        [JsonProperty("pagination")]
+        public Pagination Pagination { get; set; }
+
+        [JsonProperty("data")]
+        public Data Data { get; set; }
+    }
+
+
 }

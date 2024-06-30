@@ -2,12 +2,17 @@ stockChartElementName = "stockChart";
 
 function HomeViewModel() {
     var self = this;
+    //Form Data
     self.stockSymbol = ko.observable("").extend({ required: true });
     self.stockDate = ko.observable("");
-    self.data = ko.observableArray([]);
     self.dateFrom = ko.observable("");
     self.dateTo = ko.observable("");
 
+    //API Response
+    self.stockDetails = ko.observable(null)
+    self.eodData = ko.observableArray([]);
+ 
+    //Page functions
     self.isLoading = ko.observable(false);
     self.noDataFound = ko.observable(false);
 
@@ -34,11 +39,13 @@ function HomeViewModel() {
             contentType: 'application/json',
             data: JSON.stringify(requestData),
             success: function (response) {
-                console.log(response);
+                //console.log(response);
 
                 if (response.stockApiRoot.data.length !== 0) {
-                    self.data(response.stockApiRoot.data);
-                    updateChart(response.stockApiRoot.data);
+
+                    self.stockDetails(response.stockApiRoot.data);
+                    self.eodData(response.stockApiRoot.data.eod);
+                    updateChart(response.stockApiRoot.data.eod);
                 }
                 else {
                     self.noDataFound(true);
