@@ -3,10 +3,45 @@ stockChartElementName = "stockChart";
 function HomeViewModel() {
     var self = this;
     //Form Data
-    self.stockSymbol = ko.observable("").extend({ required: true });
+    self.stockSymbol = ko.observable("").extend({ required: { message: 'Required' } });
     self.stockDate = ko.observable("");
-    self.dateFrom = ko.observable("");
-    self.dateTo = ko.observable("");
+    self.dateFrom = ko.observable("").extend({
+        required: {
+            onlyIf: function () {
+                return self.stockDate() === "Custom";
+            },
+            message: "Required"
+        },
+        validation: {
+            validator: function (val) {
+                var dateTo = self.dateTo();
+                return !val || !dateTo || new Date(val) <= new Date(dateTo);
+            },
+            message: "Date From cannot be after Date To.",
+            onlyIf: function () {
+                return self.stockDate() === "Custom";
+            }
+        }
+    });
+    self.dateTo = ko.observable("").extend({
+        required: {
+            onlyIf: function () {
+                return self.stockDate() === "Custom";
+            },
+            message: "Required"
+        },
+        validation: {
+            validator: function (val) {
+                var dateFrom = self.dateFrom();
+                return !val || !dateFrom || new Date(val) >= new Date(dateFrom);
+            },
+            message: "Date To cannot be before Date From.",
+            onlyIf: function () {
+                return self.stockDate() === "Custom";
+            }
+        }
+    });
+
 
     //API Response
     self.stockDetails = ko.observable(null)

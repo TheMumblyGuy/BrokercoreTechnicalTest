@@ -12,6 +12,9 @@
     white-space: normal;
 }
 
+.validationMessage{
+    color:red;
+}
 
 .show {
     display: block;
