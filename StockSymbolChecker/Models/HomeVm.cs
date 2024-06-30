@@ -56,7 +56,7 @@ namespace StockSymbolChecker.Models
         public double Close { get; set; }
 
         [JsonProperty("volume")]
-        public int Volume { get; set; }
+        public double Volume { get; set; }
 
         [JsonProperty("adj_high")]
         public double AdjHigh { get; set; }
@@ -71,13 +71,13 @@ namespace StockSymbolChecker.Models
         public double AdjOpen { get; set; }
 
         [JsonProperty("adj_volume")]
-        public int AdjVolume { get; set; }
+        public double AdjVolume { get; set; }
 
         [JsonProperty("split_factor")]
-        public int SplitFactor { get; set; }
+        public double SplitFactor { get; set; }
 
         [JsonProperty("dividend")]
-        public int Dividend { get; set; }
+        public double Dividend { get; set; }
 
         [JsonProperty("symbol")]
         public string Symbol { get; set; }

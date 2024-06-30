@@ -10,7 +10,7 @@ namespace StockSymbolChecker.Services
     // TODO : cache
     public class MarketstackService
     {
-        private static readonly string BaseUrl = "http://api.marketstack.com/v1/eod";
+        private static readonly string BaseUrl = "http://api.marketstack.com/v1/tickers";
         private static readonly string ApiKey = ConfigurationManager.AppSettings["MarketStackApiKey"];
         private readonly string symbol;
         private readonly DateTime? dateFrom;
@@ -48,7 +48,7 @@ namespace StockSymbolChecker.Services
 
         private string BuildUrl(string symbol, DateTime? dateFrom = null, DateTime? dateTo = null)
         {
-            var url = $"{BaseUrl}?access_key={ApiKey}&symbols={symbol}";
+            var url = $"{BaseUrl}/{symbol}/eod?access_key={ApiKey}";
 
             if (dateFrom != null && dateTo != null)
             {

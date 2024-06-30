@@ -1,72 +1,65 @@
-stockChartElementName = "stockChart";
+const stockChartElementName = "stockChart";
 
 function HomeViewModel() {
-    var self = this;
-    //Form Data
+    const self = this;
+
+    // Form Data
     self.stockSymbol = ko.observable("").extend({ required: { message: 'Required' } });
     self.stockDate = ko.observable("");
     self.dateFrom = ko.observable("").extend({
         required: {
-            onlyIf: function () {
-                return self.stockDate() === "Custom";
-            },
+            onlyIf: () => self.stockDate() === "Custom",
             message: "Required"
         },
         validation: {
-            validator: function (val) {
-                var dateTo = self.dateTo();
+            validator: (val) => {
+                const dateTo = self.dateTo();
                 return !val || !dateTo || new Date(val) <= new Date(dateTo);
             },
             message: "Date From cannot be after Date To.",
-            onlyIf: function () {
-                return self.stockDate() === "Custom";
-            }
+            onlyIf: () => self.stockDate() === "Custom"
         }
     });
     self.dateTo = ko.observable("").extend({
         required: {
-            onlyIf: function () {
-                return self.stockDate() === "Custom";
-            },
+            onlyIf: () => self.stockDate() === "Custom",
             message: "Required"
         },
         validation: {
-            validator: function (val) {
-                var dateFrom = self.dateFrom();
+            validator: (val) => {
+                const dateFrom = self.dateFrom();
                 return !val || !dateFrom || new Date(val) >= new Date(dateFrom);
             },
             message: "Date To cannot be before Date From.",
-            onlyIf: function () {
-                return self.stockDate() === "Custom";
-            }
+            onlyIf: () => self.stockDate() === "Custom"
         }
     });
 
-
-    //API Response
-    self.stockDetails = ko.observable(null)
+    // API Response
+    self.stockDetails = ko.observable(null);
     self.eodData = ko.observableArray([]);
 
-    //Page functions
+    // Page State
     self.isLoading = ko.observable(false);
     self.noDataFound = ko.observable(false);
 
-    self.isCustomDateSelected = ko.computed(function () {
-        return self.stockDate() === "Custom";
-    });
+    // Computed Observables
+    self.isCustomDateSelected = ko.computed(() => self.stockDate() === "Custom");
 
+    // Chart Instance
     self.stockChartInstance = null;
 
-    self.search = function () {
-        if (self.errors().length == 0) {
+    // Search Function
+    self.search = () => {
+        if (self.errors().length === 0) {
             self.isLoading(true);
             self.noDataFound(false);
 
-            var requestData = {
+            const requestData = {
                 stockSymbol: self.stockSymbol(),
                 stockDate: self.stockDate(),
                 dateFrom: self.dateFrom(),
-                dateTo: self.dateTo(),
+                dateTo: self.dateTo()
             };
 
             $.ajax({
@@ -74,22 +67,20 @@ function HomeViewModel() {
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(requestData),
-                success: function (response) {
-                    //console.log(response);
-
-                    if (response.stockApiRoot.data.length !== 0) {
-                        self.stockDetails(response.stockApiRoot.data);
-                        self.eodData(response.stockApiRoot.data.eod);
-                        updateChart(response.stockApiRoot.data.eod);
-                    }
-                    else {
+                success: (response) => {
+                    const data = response.stockApiRoot.data;
+                    if (data.length !== 0) {
+                        self.stockDetails(data);
+                        self.eodData(data.eod);
+                        updateChart(data.eod);
+                    } else {
                         self.noDataFound(true);
-                        destoryChart();
+                        destroyChart();
                     }
                     self.isLoading(false);
                 },
-                error: function (error) {
-                    console.log("Error: ", error);
+                error: (error) => {
+                    console.error("Error: ", error);
                     self.isLoading(false);
                 }
             });
@@ -98,13 +89,14 @@ function HomeViewModel() {
         }
     };
 
-    function updateChart(data) {
-        var labels = data.map(item => item.date);
-        var closePrices = data.map(item => item.close);
+    // Update Chart Function
+    const updateChart = (data) => {
+        const labels = data.map(item => item.date);
+        const closePrices = data.map(item => item.close);
 
-        var stockChartElement = document.getElementById(stockChartElementName).getContext('2d');
+        const stockChartElement = document.getElementById(stockChartElementName).getContext('2d');
 
-        destoryChart();
+        destroyChart();
 
         self.stockChartInstance = new Chart(stockChartElement, {
             type: 'line',
@@ -132,16 +124,18 @@ function HomeViewModel() {
                 }
             }
         });
-    }
+    };
 
-    function destoryChart() {
-        // Destroy the previous chart instance if it exists
+    // Destroy Chart Function
+    const destroyChart = () => {
         if (self.stockChartInstance) {
             self.stockChartInstance.destroy();
         }
-    }
+    };
 
+    // Apply Validations
     self.errors = ko.validation.group(self);
 }
 
+// Apply Knockout Bindings
 ko.applyBindings({ homeviewModel: new HomeViewModel() });
