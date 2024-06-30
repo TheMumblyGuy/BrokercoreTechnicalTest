@@ -52,10 +52,10 @@ namespace StockSymbolChecker.Controllers
             try
             {
                 //Mock Data
-                data = new MockStockService(request.StockSymbol, dateFrom, dateTo).GetData();
+                //data = new MockStockService(request.StockSymbol, dateFrom, dateTo).GetData();
 
                 ////Real Data
-                //data = new MarketstackService(request.StockSymbol, dateFrom, dateTo).GetData();
+                data = new MarketstackService(request.StockSymbol, dateFrom, dateTo).GetData();
             }
             catch (ResourceNotFoundException)
             {
