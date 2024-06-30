@@ -68,15 +68,23 @@ function HomeViewModel() {
                 contentType: 'application/json',
                 data: JSON.stringify(requestData),
                 success: (response) => {
-                    const data = response.stockApiRoot.data;
-                    if (data.length !== 0) {
+                    if (response.stockApiRoot == null) {
+                        self.noDataFound(true);
+                    }
+                    else {
+                        const data = response.stockApiRoot.data;
+
                         self.stockDetails(data);
                         self.eodData(data.eod);
-                        updateChart(data.eod);
-                    } else {
-                        self.noDataFound(true);
-                        destroyChart();
+
+                        if (data.eod.length > 0) {
+                            updateChart(data.eod);
+                        }
+                        else {
+                            destroyChart();
+                        }
                     }
+
                     self.isLoading(false);
                 },
                 error: (error) => {

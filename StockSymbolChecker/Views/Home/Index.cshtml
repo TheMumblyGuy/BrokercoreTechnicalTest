@@ -13,7 +13,7 @@
                 <label for="txtStockSymbol" class="form-label">Stock Ticker</label>
                 <input type="text" class="form-control" id="txtStockSymbol" placeholder="Example : AAPL" data-bind="value: stockSymbol" maxlength="10">
             </div>
-            <div class="col-lg-2 col-md-4 col-sm-6">
+            <div class="col-lg-4 col-md-4 col-sm-6">
                 <label for="inputDate" class="form-label">Date</label>
                 <select id="inputDate" class="form-select" data-bind="value: stockDate">
 
@@ -43,9 +43,11 @@
     </form>
 
     @* Loading *@
-    <div class="alert alert-info mt-2 text-center" role="alert" data-bind="visible: isLoading">
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
+    <div   data-bind="visible: isLoading">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
     </div>
 
@@ -55,7 +57,7 @@
     </div>
 
     @* Data Found. Graph and Table *@
-    <div class="mt-4" data-bind="if: eodData().length > 0">
+    <div class="mt-4" data-bind="if: stockDetails">
 
         <div data-bind="with: stockDetails">
             <figure>
@@ -70,38 +72,46 @@
             </div>
         </div>
 
-        <canvas id="stockChart" width="400" height="200"></canvas>
+        @* No data found for this date range *@
+        <div class="alert alert-info mt-2 text-center" role="alert" data-bind="visible: eodData().length == 0">
+            No data found for this date range.
+        </div>
 
-        <div class="mt-3">
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Open</th>
-                        <th>High</th>
-                        <th>Low</th>
-                        <th>Close</th>
-                    </tr>
-                <tbody data-bind="foreach: eodData">
-                    <tr>
-                        <td>
-                            <span data-bind="dateText: date, dateFormat: 'MMM DD, YYYY'"></span>
-                        </td>
-                        <td>
-                            <span data-bind="text: open"></span>
-                        </td>
-                        <td>
-                            <span data-bind="text: high"></span>
-                        </td>
-                        <td>
-                            <span data-bind="text: low"></span>
-                        </td>
-                        <td>
-                            <span data-bind="text: close"></span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div data-bind="if: eodData().length > 0">
+
+            <canvas id="stockChart" width="400" height="200"></canvas>
+
+            <div class="mt-3">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Open</th>
+                            <th>High</th>
+                            <th>Low</th>
+                            <th>Close</th>
+                        </tr>
+                    <tbody data-bind="foreach: eodData">
+                        <tr>
+                            <td>
+                                <span data-bind="dateText: date, dateFormat: 'MMM DD, YYYY'"></span>
+                            </td>
+                            <td>
+                                <span data-bind="text: open"></span>
+                            </td>
+                            <td>
+                                <span data-bind="text: high"></span>
+                            </td>
+                            <td>
+                                <span data-bind="text: low"></span>
+                            </td>
+                            <td>
+                                <span data-bind="text: close"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

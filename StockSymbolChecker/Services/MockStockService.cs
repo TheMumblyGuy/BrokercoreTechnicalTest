@@ -1,11 +1,12 @@
-﻿using StockSymbolChecker.Models;
+﻿using StockSymbolChecker.Exceptions;
+using StockSymbolChecker.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace StockSymbolChecker.Services
 {
-    // TODO : make mock service better
+    // TODO : make mock service better by generating less static data
     public class MockStockService
     {
         private readonly string symbol;
@@ -21,6 +22,7 @@ namespace StockSymbolChecker.Services
 
         public StockApiRoot GetData()
         {
+            //throw new ResourceNotFoundException("Resource not found.");
             var mockData = new StockApiRoot
             {
                 Pagination = new Pagination { Limit = 100, Offset = 0, Count = 100, Total = 9944 },
@@ -31,7 +33,19 @@ namespace StockSymbolChecker.Services
                     Country = null,
                     HasIntraday = false,
                     HasEod = true,
-                    Eod = new List<Eod>
+                    //Eod = new List<Eod>()
+                    Eod = GetDummyData()
+                }
+            };
+
+            // For testing slow responses so I can test the loading icon
+            Thread.Sleep(2000);
+
+            return mockData;
+        }
+
+        // Dummy data
+        public static List<Eod> GetDummyData() => new List<Eod>
                     {
                         new Eod
                         {
@@ -159,14 +173,7 @@ namespace StockSymbolChecker.Services
                             Exchange = "XNYS",
                             Date = DateTime.Parse("2024-06-20T00:00:00+0000")
                         }
-                    }
-                }
-            };
+                    };
 
-            // For testing slow responses so I can test the loading icon
-            Thread.Sleep(2000);
-
-            return mockData;
-        }
     }
 }

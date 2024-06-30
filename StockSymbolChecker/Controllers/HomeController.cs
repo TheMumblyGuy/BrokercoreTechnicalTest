@@ -5,6 +5,7 @@ using System;
 using System.Web.Mvc;
 using Newtonsoft.Json.Serialization;
 using StockSymbolChecker.Services;
+using StockSymbolChecker.Exceptions;
 
 namespace StockSymbolChecker.Controllers
 {
@@ -18,7 +19,6 @@ namespace StockSymbolChecker.Controllers
         [HttpPost]
         public ActionResult SearchStock(StockSearchRequest request)
         {
-
             DateTime? dateFrom = null;
             DateTime? dateTo = null;
 
@@ -48,11 +48,24 @@ namespace StockSymbolChecker.Controllers
                     break;
             }
 
-            //Mock Data
-            //var data = new MockStockService(request.StockSymbol, dateFrom, dateTo).GetData();
+            StockApiRoot data;
+            try
+            {
+                //Mock Data
+                data = new MockStockService(request.StockSymbol, dateFrom, dateTo).GetData();
 
-            ////Real Data
-            var data = new MarketstackService(request.StockSymbol, dateFrom, dateTo).GetData();
+                ////Real Data
+                //data = new MarketstackService(request.StockSymbol, dateFrom, dateTo).GetData();
+            }
+            catch (ResourceNotFoundException)
+            {
+                //if no stock is found, just return an empty body so the fronted can handle it easier
+                data = null;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
             var homeVm = new HomeVm
             {
