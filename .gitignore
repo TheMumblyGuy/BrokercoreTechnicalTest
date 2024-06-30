@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/StockCheck/obj
+/StockCheck/.vs/StockCheck
+/StockSymbolChecker/.vs
+/StockSymbolChecker/bin
+/StockSymbolChecker/obj/Debug
+/StockSymbolChecker/packages
