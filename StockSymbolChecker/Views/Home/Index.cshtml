@@ -9,11 +9,11 @@
 
     <form data-bind="submit: search">
         <div class="row g-3">
-            <div class="col-2">
+            <div class="col-lg-2 col-md-4 col-sm-6">
                 <label for="txtStockSymbol" class="form-label">Stock Ticker</label>
-                <input type="text" class="form-control" id="txtStockSymbol" placeholder="Example : AAPL" data-bind="value: stockSymbol">
+                <input type="text" class="form-control" id="txtStockSymbol" placeholder="Example : AAPL" data-bind="value: stockSymbol" maxlength="10">
             </div>
-            <div class="col-2">
+            <div class="col-lg-2 col-md-4 col-sm-6">
                 <label for="inputDate" class="form-label">Date</label>
                 <select id="inputDate" class="form-select" data-bind="value: stockDate">
 
@@ -23,13 +23,13 @@
                     <option value="Custom">Custom</option>
                 </select>
             </div>
-            <div class="col-2" data-bind="visible: isCustomDateSelected">
+            <div class="col-lg-2 col-md-4 col-sm-6" data-bind="visible: isCustomDateSelected">
 
                 <label for="txtDateFrom" class="form-label">Date From</label>
                 <input type="date" class="form-control" id="txtDateFrom" data-bind="value: dateFrom" placeholder="Enter custom data">
             </div>
 
-            <div class="col-2" data-bind="visible: isCustomDateSelected">
+            <div class="col-lg-2 col-md-4 col-sm-6" data-bind="visible: isCustomDateSelected">
 
                 <label for="txtDateTo" class="form-label">Date To</label>
                 <input type="date" class="form-control" id="txtDateTo" data-bind="value: dateTo" placeholder="Enter custom data">

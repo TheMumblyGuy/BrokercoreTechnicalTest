@@ -11,7 +11,7 @@ function HomeViewModel() {
     //API Response
     self.stockDetails = ko.observable(null)
     self.eodData = ko.observableArray([]);
- 
+
     //Page functions
     self.isLoading = ko.observable(false);
     self.noDataFound = ko.observable(false);
@@ -23,41 +23,44 @@ function HomeViewModel() {
     self.stockChartInstance = null;
 
     self.search = function () {
-        self.isLoading(true);
-        self.noDataFound(false);
+        if (self.errors().length == 0) {
+            self.isLoading(true);
+            self.noDataFound(false);
 
-        var requestData = {
-            stockSymbol: self.stockSymbol(),
-            stockDate: self.stockDate(),
-            dateFrom: self.dateFrom(),
-            dateTo: self.dateTo(),
-        };
+            var requestData = {
+                stockSymbol: self.stockSymbol(),
+                stockDate: self.stockDate(),
+                dateFrom: self.dateFrom(),
+                dateTo: self.dateTo(),
+            };
 
-        $.ajax({
-            url: '/Home/SearchStock',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(requestData),
-            success: function (response) {
-                //console.log(response);
+            $.ajax({
+                url: '/Home/SearchStock',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestData),
+                success: function (response) {
+                    //console.log(response);
 
-                if (response.stockApiRoot.data.length !== 0) {
-
-                    self.stockDetails(response.stockApiRoot.data);
-                    self.eodData(response.stockApiRoot.data.eod);
-                    updateChart(response.stockApiRoot.data.eod);
+                    if (response.stockApiRoot.data.length !== 0) {
+                        self.stockDetails(response.stockApiRoot.data);
+                        self.eodData(response.stockApiRoot.data.eod);
+                        updateChart(response.stockApiRoot.data.eod);
+                    }
+                    else {
+                        self.noDataFound(true);
+                        destoryChart();
+                    }
+                    self.isLoading(false);
+                },
+                error: function (error) {
+                    console.log("Error: ", error);
+                    self.isLoading(false);
                 }
-                else {
-                    self.noDataFound(true);
-                    destoryChart();
-                }
-                self.isLoading(false);
-            },
-            error: function (error) {
-                console.log("Error: ", error);
-                self.isLoading(false);
-            }
-        });
+            });
+        } else {
+            self.errors.showAllMessages();
+        }
     };
 
     function updateChart(data) {
@@ -67,7 +70,7 @@ function HomeViewModel() {
         var stockChartElement = document.getElementById(stockChartElementName).getContext('2d');
 
         destoryChart();
-       
+
         self.stockChartInstance = new Chart(stockChartElement, {
             type: 'line',
             data: {
@@ -77,7 +80,7 @@ function HomeViewModel() {
                     data: closePrices,
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1,
-                    fill: false
+                    fill: true
                 }]
             },
             options: {
@@ -101,8 +104,9 @@ function HomeViewModel() {
         if (self.stockChartInstance) {
             self.stockChartInstance.destroy();
         }
-
     }
+
+    self.errors = ko.validation.group(self);
 }
 
 ko.applyBindings({ homeviewModel: new HomeViewModel() });

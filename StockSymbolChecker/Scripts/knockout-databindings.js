@@ -1,3 +1,4 @@
+//Date binding
 ko.bindingHandlers.dateText = {
     update: function (element, valueAccessor, allBindings) {
         var value = ko.unwrap(valueAccessor());
@@ -12,6 +13,7 @@ ko.bindingHandlers.dateText = {
     }
 };
 
+//hide bindings till registed
 ko.bindingHandlers.showAfterBinding = {
     init: function (element, valueAccessor) {
         // Initially hide the element
