@@ -48,7 +48,7 @@ namespace StockSymbolChecker.Controllers
                     break;
             }
 
-            StockApiRoot data = null;
+            StockApiRoot data;
             try
             {
                 //Mock Data

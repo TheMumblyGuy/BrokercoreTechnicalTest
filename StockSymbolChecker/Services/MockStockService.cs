@@ -22,7 +22,7 @@ namespace StockSymbolChecker.Services
 
         public StockApiRoot GetData()
         {
-            throw new ResourceNotFoundException("Resource not found.");
+            //throw new ResourceNotFoundException("Resource not found.");
             var mockData = new StockApiRoot
             {
                 Pagination = new Pagination { Limit = 100, Offset = 0, Count = 100, Total = 9944 },
